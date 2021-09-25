@@ -1,27 +1,52 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions/bookInstance'
-
+import { Table } from 'antd'
+import 'antd/dist/antd.css';
 
 const BookInstances = (props) => {
-    useEffect(() => {
-        props.fetchAllBookInstances()
+
+    useEffect( () => {
+         props.fetchAllBookInstances()
     }, [])
 
-    console.log(props.bookInstanceList)
+    const dataSource = Object.entries(props.bookInstanceList).flat().filter(element => element !== '0')
+
+    const columns = [
+        {
+          title: 'authorName',
+          dataIndex: 'authorName',
+          key: 'authorName',
+        },
+        {
+          title: 'bookName',
+          dataIndex: 'bookName',
+          key: 'bookName',
+        },
+        {
+          title: 'genre',
+          dataIndex: 'genre',
+          key: 'genre',
+        },
+        {
+          title: 'publisher',
+          dataIndex: 'publisher',
+          key: 'publisher',
+        },
+        {
+          title: 'shortDescription',
+          dataIndex: 'shortDescription',
+          key: 'shortDescription',
+        },
+        {
+          title: 'yearPublished',
+          dataIndex: 'yearPublished',
+          key: 'yearPublished',
+        }
+      ];
+
     return (
-        <div>
-            {
-                props.bookInstanceList.map((record, index) => {
-                    return (
-                    <div key={index}>
-                        <p>{record.bookName}</p>
-                        <p>{record.authorName}</p>
-                    </div>
-                    )
-            })
-            }
-        </div>
+        <Table dataSource={dataSource} columns={columns} />
     )
 }
 
