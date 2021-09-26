@@ -14,14 +14,14 @@ const BookInstances = (props) => {
 
     const columns = [
         {
-          title: 'authorName',
-          dataIndex: 'authorName',
-          key: 'authorName',
-        },
-        {
           title: 'bookName',
           dataIndex: 'bookName',
           key: 'bookName',
+        },
+        {
+          title: 'authorName',
+          dataIndex: 'authorName',
+          key: 'authorName',
         },
         {
           title: 'genre',
