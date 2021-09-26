@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions/bookInstance'
 import { Table, Space } from 'antd'
@@ -8,23 +8,23 @@ import BookInstanceForm from './BookInstanceForm';
 const BookInstances = (props) => {
     
     const [currentId, setCurrentId] = useState(0)
-    const [rerender, toggleRerender] = useState(false)
+    const [bookList, setBookList] = useState('')
     
     useEffect( () => {
          props.fetchAllBookInstances()
-    }, [currentId])
+    }, [currentId, bookList])
 
     console.log(props.bookInstanceList)
     
     const dataSource = Object.entries(props.bookInstanceList).flat().filter(element => isNaN(element))
 
-    console.log(dataSource, 'luca')
 
-    const onDelete = id => {
+    const onDelete = async id => {
       if(window.confirm('Are you sure you want to delete this book?')) {
-        props.deleteBookInstance(id, () => {window.alert('deleted')})
+        await props.deleteBookInstance(id, () => {window.alert('deleted')})
+        setBookList(props.bookInstanceList)
       }
-      toggleRerender(!rerender)
+      
     }
 
     const columns = [
