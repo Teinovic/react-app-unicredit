@@ -5,7 +5,6 @@ const baseUrl = "http://localhost:5000/api/"
 
 
 export default {
-
     bookInstance(url = baseUrl + 'bookinstance/') {
         return {
             fetchAll: () => axios.get(url),

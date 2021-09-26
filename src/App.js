@@ -9,7 +9,6 @@ function App() {
   return (
     <Provider store={store}>
       <BookInstances />
-      <BookInstanceForm />
     </Provider>
   )
 }

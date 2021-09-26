@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Input, Button } from 'antd'
 import 'antd/dist/antd.css';
+import { connect } from 'react-redux'
+import * as actions from '../actions/bookInstance'
+
 
 const initialFieldValues = {
     bookName: '',
@@ -11,8 +14,8 @@ const initialFieldValues = {
     yearPublished: ''
 }
 
-export default function BookInstanceForm() {
-    
+const BookInstanceForm = (props) => {
+    const [form] = Form.useForm();
     const [values, setValues] = useState(initialFieldValues)
     
     const handleInputChange = e => {
@@ -23,7 +26,13 @@ export default function BookInstanceForm() {
             ...fieldValue
         })
     }
-    console.log(values)
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        if (props.currentId === 0) props.createBookInstance(values, () => {window.alert('inserted')})
+        else props.updateBookInstance(props.currentId, values, () => {window.alert('updated')})
+        form.resetFields()
+    }
 
     const onFinish = (values) => {
         console.log('Success:', values);
@@ -33,8 +42,33 @@ export default function BookInstanceForm() {
         console.log('Failed:', errorInfo);
     };
     
+
+    useEffect(() => {
+        if (props.currentId !== 0)
+            setValues({
+                ...props.bookInstanceList.find(element => element.id === props.currentId)
+            })
+            
+    }, [props.currentId])
+
+    // const handleInputChange = (e) => {
+    //     const fname = e.target.name;
+    //     const fvalue = e.target.value;
+    //     form.setFieldsValue({
+    //       [fname]: fvalue
+    //     });
+    //   }
+    useEffect(() => {
+        form.setFieldsValue({
+            ...values
+        });
+    }, [values]);
+
+    console.log(values)
+
     return (
         <Form
+            form={form}
             name="basic"
             labelCol={{
                 span: 8,
@@ -42,12 +76,12 @@ export default function BookInstanceForm() {
             wrapperCol={{
                 span: 16,
             }}
-            initialValues={{
-                remember: true,
-            }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
+            
+            // onValuesChange={handleInputChange}
+            initialValues={initialFieldValues}
         >
             <Form.Item
                 label="Book Title"
@@ -59,7 +93,7 @@ export default function BookInstanceForm() {
                     },
                 ]}
             >
-                <Input 
+                <Input
                     name="bookName"
                     value={values.bookName}
                     onChange={handleInputChange}
@@ -157,10 +191,26 @@ export default function BookInstanceForm() {
                     span: 16,
                 }}
             >
-                <Button type="primary" htmlType="submit">
+                <Button 
+                    type="primary" 
+                    htmlType="submit"
+                    onClick={handleSubmit}
+                >
                     Submit
                 </Button>
             </Form.Item>
         </Form>
         );
 }
+
+const mapStateToProps = state => ({
+    bookInstanceList: state.bookInstance.list
+})
+
+const mapActionToProps = {
+    createBookInstance: actions.create,
+    updateBookInstance: actions.update,
+    deleteBookInstance: actions.Delete 
+}
+
+export default connect(mapStateToProps, mapActionToProps)((BookInstanceForm));
