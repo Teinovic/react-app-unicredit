@@ -14,9 +14,6 @@ export default function Header() {
                     <Link to='/'>Home</Link>
                 </Menu.Item>
                 <Menu.Item>
-                    <Link to='/addbookinstance'>Add a Book</Link>
-                </Menu.Item>
-                <Menu.Item>
                     <Link to='/booklist'>List of Books</Link>
                 </Menu.Item>
               

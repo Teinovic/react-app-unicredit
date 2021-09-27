@@ -7,7 +7,6 @@ import BookList from './containers/bookList'
 import Header from './containers/header'
 import Footer from './containers/footer'
 import Home from './containers/home'
-import AddBookInstance from './containers/addBookInstance'
 import { Layout } from 'antd'
 
 function App() {
@@ -23,9 +22,6 @@ function App() {
               </Route>
               <Route exact path='/booklist'>
                 <BookList />
-              </Route>
-              <Route exact path='/addbookinstance'>
-                <AddBookInstance />
               </Route>
             </Switch>
           <Footer />
