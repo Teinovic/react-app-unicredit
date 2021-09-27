@@ -51,13 +51,6 @@ const BookInstanceForm = (props) => {
             
     }, [props.currentId])
 
-    // const handleInputChange = (e) => {
-    //     const fname = e.target.name;
-    //     const fvalue = e.target.value;
-    //     form.setFieldsValue({
-    //       [fname]: fvalue
-    //     });
-    //   }
     useEffect(() => {
         form.setFieldsValue({
             ...values
@@ -74,7 +67,7 @@ const BookInstanceForm = (props) => {
                 span: 8,
             }}
             wrapperCol={{
-                span: 16,
+                span: 8,
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
