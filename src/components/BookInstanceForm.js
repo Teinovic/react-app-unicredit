@@ -27,9 +27,11 @@ const BookInstanceForm = (props) => {
         })
     }
 
+
     const handleSubmit = e => {
         e.preventDefault()
         if (isNaN(values.yearPublished)) {Modal.error({content: 'Year of publication must be a number',})}
+        if (Object.values(values).some(el => el === '')) {Modal.error({content: 'Must fill out all the fields',})}
         else if (props.currentId === 0) {
             props.createBookInstance(values, () => 
                 {Modal.success({
