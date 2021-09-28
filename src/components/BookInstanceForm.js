@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Modal } from 'antd'
 import 'antd/dist/antd.css';
 import { connect } from 'react-redux'
 import * as actions from '../actions/bookInstance'
@@ -29,9 +29,25 @@ const BookInstanceForm = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        if (props.currentId === 0) props.createBookInstance(values, () => {window.alert('inserted')})
-        else props.updateBookInstance(props.currentId, values, () => {window.alert('updated')})
-        form.resetFields()
+        if (isNaN(values.yearPublished)) {Modal.error({content: 'Year of publication must be a number',})}
+        else if (props.currentId === 0) {
+            props.createBookInstance(values, () => 
+                {Modal.success({
+                    content: 'Successfully added a book!',
+                })})
+            props.setCurrentId(0)
+            setValues(initialFieldValues)  
+        }
+        else {
+            props.updateBookInstance(props.currentId, values, () => 
+                Modal.success({
+                    content: 'Successfully edited the book info!',
+                }))
+            props.setCurrentId(0)
+            setValues(initialFieldValues)
+        }
+        
+        
     }
 
     const onFinish = (values) => {
@@ -91,8 +107,7 @@ const BookInstanceForm = (props) => {
                     value={values.bookName}
                     onChange={handleInputChange}
                 />
-            </Form.Item>
-    
+            </Form.Item>    
             <Form.Item
                 label="Author"
                 name="authorName"
@@ -108,8 +123,7 @@ const BookInstanceForm = (props) => {
                     value={values.authorName}
                     onChange={handleInputChange}
                 />
-            </Form.Item>
-    
+            </Form.Item>    
             <Form.Item
                 label="Genre"
                 name="genre"
@@ -126,7 +140,6 @@ const BookInstanceForm = (props) => {
                     onChange={handleInputChange}
                 />
             </Form.Item>
-
             <Form.Item
                 label="Publisher"
                 name="publisher"
@@ -143,7 +156,6 @@ const BookInstanceForm = (props) => {
                     onChange={handleInputChange}
                 />
             </Form.Item>
-
             <Form.Item
                 label="Short Description"
                 name="shortDescription"
@@ -160,7 +172,6 @@ const BookInstanceForm = (props) => {
                     onChange={handleInputChange}
                 />
             </Form.Item>
-
             <Form.Item
                 label="Year of publication"
                 name="yearPublished"
@@ -176,8 +187,7 @@ const BookInstanceForm = (props) => {
                     value={values.yearPublished}
                     onChange={handleInputChange}
                 />
-            </Form.Item>
-    
+            </Form.Item>    
             <Form.Item
                 wrapperCol={{
                     offset: 8,

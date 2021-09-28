@@ -1,31 +1,47 @@
-import React, { useState, useEffect, useReducer } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions/bookInstance'
-import { Table, Space } from 'antd'
-import 'antd/dist/antd.css';
-import BookInstanceForm from './BookInstanceForm';
+import { Table, Space, Modal } from 'antd'
+import 'antd/dist/antd.css'
+import BookInstanceForm from './BookInstanceForm'
 
 const BookInstances = (props) => {
     
     const [currentId, setCurrentId] = useState(0)
-    const [bookList, setBookList] = useState('')
+    const [forceRerender, setForceRerender] = useState(0)
+    const { confirm } = Modal
     
     useEffect( () => {
          props.fetchAllBookInstances()
-    }, [currentId, bookList])
+    }, [currentId, forceRerender])
 
     console.log(props.bookInstanceList)
     
     const dataSource = Object.entries(props.bookInstanceList).flat().filter(element => isNaN(element))
 
 
-    const onDelete = async id => {
-      if(window.confirm('Are you sure you want to delete this book?')) {
-        await props.deleteBookInstance(id, () => {window.alert('deleted')})
-        setBookList(props.bookInstanceList)
-      }
-      
+    function onDelete(id) {
+       confirm({
+        title: 'Are you sure delete this book?',
+        content: 'This will permanently delete all the book info.',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk() {
+          props.deleteBookInstance(id, () => 
+            Modal.success({
+              content: 'Successfully deleted the book.',
+            }).then(setForceRerender(forceRerender + 1))
+          )
+          
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     }
+      
+    
 
     const columns = [
         {
@@ -71,7 +87,7 @@ const BookInstances = (props) => {
             )
           }
         }
-      ];
+      ]
 
     return (
       <>

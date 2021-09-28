@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, Breadcrumb } from 'antd'
+import { Layout } from 'antd'
 
 export default function home() {
     const {Content} = Layout;
