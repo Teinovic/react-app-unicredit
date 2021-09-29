@@ -27,11 +27,13 @@ const BookInstances = (props) => {
         okText: 'Yes',
         okType: 'danger',
         cancelText: 'No',
-        onOk() {
-          props.deleteBookInstance(id, () => 
+        async onOk() {
+          await props.deleteBookInstance(id, () => {
             Modal.success({
-              content: 'Successfully deleted the book.',
-            }).then(setForceRerender(forceRerender + 1))
+              content: 'Successfully deleted the book.'
+            })
+            setForceRerender(forceRerender + 1)
+            }
           )
           
         },

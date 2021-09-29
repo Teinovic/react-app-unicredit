@@ -1,4 +1,5 @@
 import api from "./api";
+import { Modal } from 'antd'
 
 export const ACTION_TYPES = {
     CREATE: 'CREATE',
@@ -20,7 +21,10 @@ export const fetchAll = () => dispatch => {
                 payload: response.data
             })
         })
-        .catch(err => console.log(err))
+        .catch(err => err.message === 'Network Error' ? 
+                Modal.error({content: `Error type: ${err.message}. The server appears to be down. Try again later.`}) : 
+                Modal.error({content: `Error type: ${err.message}`})
+        )
 }
 
 export const create = (data, onSuccess) => dispatch => {
@@ -32,7 +36,10 @@ export const create = (data, onSuccess) => dispatch => {
         })
         onSuccess()
     })
-    .catch(err => console.log(err))
+    .catch(err => err.message === 'Network Error' ? 
+                Modal.error({content: `Error type: ${err.message}. The server appears to be down. Try again later.`}) : 
+                Modal.error({content: `Error type: ${err.message}`})
+    )
 }
 
 export const update = (id, data, onSuccess) => dispatch => {
@@ -44,7 +51,10 @@ export const update = (id, data, onSuccess) => dispatch => {
         })
         onSuccess()
     })
-    .catch(err => console.log(err))
+    .catch(err => err.message === 'Network Error' ? 
+                Modal.error({content: `Error type: ${err.message}. The server appears to be down. Try again later.`}) : 
+                Modal.error({content: `Error type: ${err.message}`})
+    )
 }
 
 export const Delete = (id, onSuccess) => dispatch => {
@@ -55,5 +65,8 @@ export const Delete = (id, onSuccess) => dispatch => {
         })
         onSuccess()
     })
-    .catch(err => console.log(err))
+    .catch(err => err.message === 'Network Error' ? 
+                Modal.error({content: `Error type: ${err.message}. The server appears to be down. Try again later.`}) : 
+                Modal.error({content: `Error type: ${err.message}`})
+    )
 }

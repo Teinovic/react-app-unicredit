@@ -31,7 +31,8 @@ const BookInstanceForm = (props) => {
     const handleSubmit = e => {
         e.preventDefault()
         if (isNaN(values.yearPublished)) {Modal.error({content: 'Year of publication must be a number',})}
-        if (Object.values(values).some(el => el === '')) {Modal.error({content: 'Must fill out all the fields',})}
+        else if (Object.values(values).some(el => el === '')) {Modal.error({content: 'Must fill out all the fields',})}
+        else if (Object.values(values).some(el => el.length > 100)) {Modal.error({content: 'None of the fields can be more than 100 characters long',})}
         else if (props.currentId === 0) {
             props.createBookInstance(values, () => 
                 {Modal.success({
@@ -47,9 +48,7 @@ const BookInstanceForm = (props) => {
                 }))
             props.setCurrentId(0)
             setValues(initialFieldValues)
-        }
-        
-        
+            }
     }
 
     const onFinish = (values) => {
@@ -102,6 +101,10 @@ const BookInstanceForm = (props) => {
                     required: true,
                     message: 'Please input the book title!',
                     },
+                    {
+                    max: 100,
+                    message: 'Too many characters used!',
+                    },
                 ]}
             >
                 <Input
@@ -117,6 +120,10 @@ const BookInstanceForm = (props) => {
                     {
                     required: true,
                     message: "Please input the author's name!",
+                    },
+                    {
+                    max: 100,
+                    message: 'Too many characters used!',
                     },
                 ]}
             >
@@ -134,6 +141,10 @@ const BookInstanceForm = (props) => {
                     required: true,
                     message: 'Please input the genre of the book!',
                     },
+                    {
+                    max: 100,
+                    message: 'Too many characters used!',
+                    },
                 ]}
             >
                 <Input 
@@ -149,6 +160,10 @@ const BookInstanceForm = (props) => {
                     {
                     required: true,
                     message: 'Please input the publisher of the book!',
+                    },
+                    {
+                    max: 100,
+                    message: 'Too many characters used!',
                     },
                 ]}
             >
@@ -166,6 +181,10 @@ const BookInstanceForm = (props) => {
                     required: true,
                     message: 'Please input the short description of the book!',
                     },
+                    {
+                    max: 100,
+                    message: 'Too many characters used!',
+                    },
                 ]}
             >
                 <Input 
@@ -181,6 +200,10 @@ const BookInstanceForm = (props) => {
                     {
                     required: true,
                     message: 'Please input the year of publication!',
+                    },
+                    {
+                    max: 100,
+                    message: 'Too many characters used!',
                     },
                 ]}
             >
