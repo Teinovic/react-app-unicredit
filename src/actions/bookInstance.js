@@ -65,8 +65,8 @@ export const Delete = (id, onSuccess) => dispatch => {
         })
         onSuccess()
     })
-    .catch(err => {err.message === 'Network Error' ? 
+    .catch(err => err.message === 'Network Error' ? 
                 Modal.error({content: `Error type: ${err.message}. The server appears to be down. Try again later.`}) : 
-                Modal.error({content: `Error type: ${err.message}`}); console.log(err)}
+                Modal.error({content: `Error type: ${err.message}`})
     )
 }
