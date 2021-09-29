@@ -30,9 +30,9 @@ const BookInstanceForm = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        if (isNaN(values.yearPublished)) {Modal.error({content: 'Year of publication must be a number',})}
-        else if (Object.values(values).some(el => el === '')) {Modal.error({content: 'Must fill out all the fields',})}
-        else if (Object.values(values).some(el => el.length > 100)) {Modal.error({content: 'None of the fields can be more than 100 characters long',})}
+        if (isNaN(values.yearPublished)) {Modal.error({content: 'Year of publication must be a number.',})}
+        else if (Object.values(values).some(el => el === '')) {Modal.error({content: 'Must fill out all the fields.',})}
+        else if (Object.values(values).some(el => el.length > 100)) {Modal.error({content: 'None of the fields can be more than 100 characters long.',})}
         else if (props.currentId === 0) {
             props.createBookInstance(values, () => 
                 {Modal.success({
