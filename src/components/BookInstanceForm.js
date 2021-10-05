@@ -3,6 +3,7 @@ import { Form, Input, Button, Modal } from 'antd'
 import 'antd/dist/antd.css';
 import { connect } from 'react-redux'
 import * as actions from '../actions/bookInstance'
+import { updateCurrentId } from '../actions/currentId';
 
 
 const initialFieldValues = {
@@ -38,7 +39,7 @@ const BookInstanceForm = (props) => {
                 {Modal.success({
                     content: 'Successfully added a book!',
                 })})
-            props.setCurrentId(0)
+            props.updateCurrentId(0)
             setValues(initialFieldValues)  
         }
         else {
@@ -46,7 +47,7 @@ const BookInstanceForm = (props) => {
                 Modal.success({
                     content: 'Successfully edited the book info!',
                 }))
-            props.setCurrentId(0)
+            props.updateCurrentId(0)
             setValues(initialFieldValues)
             }
     }
@@ -232,13 +233,15 @@ const BookInstanceForm = (props) => {
 }
 
 const mapStateToProps = state => ({
-    bookInstanceList: state.bookInstance.list
+    bookInstanceList: state.bookInstance.list,
+    currentId: state.currentId
 })
 
 const mapActionToProps = {
     createBookInstance: actions.create,
     updateBookInstance: actions.update,
-    deleteBookInstance: actions.Delete 
+    deleteBookInstance: actions.Delete,
+    updateCurrentId
 }
 
 export default connect(mapStateToProps, mapActionToProps)((BookInstanceForm));

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import * as actions from '../actions/bookInstance'
+import * as apiActions from '../actions/bookInstance'
 import { Table, Space, Modal } from 'antd'
 import 'antd/dist/antd.css'
 import BookInstanceForm from './BookInstanceForm'
+import { updateCurrentId } from '../actions/currentId'
 
 const BookInstances = (props) => {
-    
-    const [currentId, setCurrentId] = useState(0)
+  
     const [forceRerender, setForceRerender] = useState(0)
     const { confirm } = Modal
     
     useEffect( () => {
          props.fetchAllBookInstances()
-    }, [currentId, forceRerender])
+    }, [props.currentId, forceRerender])
 
     console.log(props.bookInstanceList)
     
@@ -82,7 +82,7 @@ const BookInstances = (props) => {
           render: (text, record) => { 
             return (
               <Space size="middle">
-                <a onClick={() => {setCurrentId(record.id)}}>Update</a>
+                <a onClick={() => {props.updateCurrentId(record.id)}}>Update</a>
                 <a onClick={() => {onDelete(record.id)}}>Delete</a>
               </Space>
           
@@ -94,18 +94,20 @@ const BookInstances = (props) => {
     return (
       <>
         <Table dataSource={dataSource} columns={columns} />
-        <BookInstanceForm {...({currentId, setCurrentId})}/>
+        <BookInstanceForm />
       </>
     )
 }
 
 const mapStateToProps = state => ({
-    bookInstanceList: state.bookInstance.list
+    bookInstanceList: state.bookInstance.list,
+    currentId: state.currentId
 })
 
 const mapActionToProps = {
-    fetchAllBookInstances: actions.fetchAll,
-    deleteBookInstance: actions.Delete
+    fetchAllBookInstances: apiActions.fetchAll,
+    deleteBookInstance: apiActions.Delete,
+    updateCurrentId
 }
 
 export default connect(mapStateToProps, mapActionToProps)((BookInstances));
